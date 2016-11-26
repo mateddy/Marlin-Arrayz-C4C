@@ -402,53 +402,59 @@ void MainMenu::showStatus()
     #endif
   }
 
-  int tHotEnd0=int(degHotend0() + 0.5);
-  if((tHotEnd0!=olddegHotEnd0)||force_lcd_update)
+  int tHotEnd=int(degHotend0() + 0.5);
+  if((tHotEnd!=olddegHotEnd0)||force_lcd_update)
   {
     lcd.setCursor(1,0);
-    lcd.print(itostr3(tHotEnd0));
-    olddegHotEnd0=tHotEnd0;
+    lcd.print(itostr3(tHotEnd));
+    olddegHotEnd0=tHotEnd;
   }
-  int ttHotEnd0=int(degTargetHotend0() + 0.5);
-  if((ttHotEnd0!=oldtargetHotEnd0)||force_lcd_update)
+  int tTarget=int(degTargetHotend0() + 0.5);
+  if((tTarget!=oldtargetHotEnd0)||force_lcd_update)
   {
     lcd.setCursor(5,0);
-    lcd.print(itostr3(ttHotEnd0));
-    oldtargetHotEnd0=ttHotEnd0;
+    lcd.print(itostr3(tTarget));
+    LCD_PRINT_PGM("\001 ");
+    if (tTarget < 10) lcd.print(' ');
+    oldtargetHotEnd0=tTarget;
   }
   #if defined BED_USES_THERMISTOR || defined BED_USES_AD595
     static int oldtBed=-1;
     static int oldtargetBed=-1;
-    int tBed=int(degBed() + 0.5);
-    if((tBed!=oldtBed)||force_lcd_update)
+    tHotEnd=int(degBed() + 0.5);
+    if((tHotEnd!=oldtBed)||force_lcd_update)
     {
       lcd.setCursor(11,0);
-      lcd.print(itostr3(tBed));
-      oldtBed=tBed;
+      lcd.print(itostr3(tHotEnd));
+      oldtBed=tHotEnd;
     }
-    int targetBed=int(degTargetBed() + 0.5);
-    if((targetBed!=oldtargetBed)||force_lcd_update)
+    tTarget=int(degTargetBed() + 0.5);
+    if((tTarget!=oldtargetBed)||force_lcd_update)
     {
       lcd.setCursor(15,0);
-      lcd.print(itostr3(targetBed));
-      oldtargetBed=targetBed;
+      lcd.print(itostr3(tTarget));
+      LCD_PRINT_PGM("\001 ");
+      if (tTarget < 10) lcd.print(' ');
+      oldtargetBed=tTarget;
     }
   #elif EXTRUDERS > 1
     static int olddegHotEnd1=-1;
     static int oldtargetHotEnd1=-1;
-    int tHotEnd1=int(degHotend1() + 0.5);
-    if((tHotEnd1!=olddegHotEnd1)||force_lcd_update)
+    tHotEnd=int(degHotend1() + 0.5);
+    if((tHotEnd!=olddegHotEnd1)||force_lcd_update)
     {
       lcd.setCursor(11,0);
-      lcd.print(itostr3(tHotEnd1));
-      olddegHotEnd1=tHotEnd1;
+      lcd.print(itostr3(tHotEnd));
+      olddegHotEnd1=tHotEnd;
     }
-    int ttHotEnd1=int(degTargetHotend1() + 0.5);
-    if((ttHotEnd1!=oldtargetHotEnd1)||force_lcd_update)
+    tTarget=int(degTargetHotend1() + 0.5);
+    if((tTarget!=oldtargetHotEnd1)||force_lcd_update)
     {
       lcd.setCursor(15,0);
-      lcd.print(itostr3(ttHotEnd1));
-      oldtargetHotEnd1=ttHotEnd1;
+      lcd.print(itostr3(tTarget));
+      LCD_PRINT_PGM("\001 ");
+      if (tTarget < 10) lcd.print(' ');
+      oldtargetHotEnd1=tTarget;
     }
   #endif
   //starttime=2;
@@ -541,21 +547,21 @@ void MainMenu::showStatus()
     lcd.setCursor(0,0);LCD_PRINT_PGM("\002---/---\001 ");
   }
 
-  int tHotEnd0=int(degHotend0() + 0.5);
-  int ttHotEnd0=int(degTargetHotend0() + 0.5);
+  int tHotEnd=int(degHotend0() + 0.5);
+  int tTarget=int(degTargetHotend0() + 0.5);
 
 
-  if((abs(tHotEnd0-olddegHotEnd0)>1)||force_lcd_update)
+  if((abs(tHotEnd-olddegHotEnd0)>1)||force_lcd_update)
   {
     lcd.setCursor(1,0);
-    lcd.print(itostr3(tHotEnd0));
-    olddegHotEnd0=tHotEnd0;
+    lcd.print(itostr3(tHotEnd));
+    olddegHotEnd0=tHotEnd;
   }
-  if((ttHotEnd0!=oldtargetHotEnd0)||force_lcd_update)
+  if((tTarget!=oldtargetHotEnd0)||force_lcd_update)
   {
     lcd.setCursor(5,0);
-    lcd.print(itostr3(ttHotEnd0));
-    oldtargetHotEnd0=ttHotEnd0;
+    lcd.print(itostr3(tTarget));
+    oldtargetHotEnd0=tTarget;
   }
 
   if(messagetext[0]!='\0')
