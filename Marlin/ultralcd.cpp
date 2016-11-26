@@ -413,7 +413,7 @@ void MainMenu::showStatus()
   if((tTarget!=oldtargetHotEnd0)||force_lcd_update)
   {
     lcd.setCursor(5,0);
-    lcd.print(itostr3(tTarget));
+    lcd.print(itostr3left(tTarget));
     LCD_PRINT_PGM("\001 ");
     if (tTarget < 10) lcd.print(' ');
     oldtargetHotEnd0=tTarget;
@@ -432,7 +432,7 @@ void MainMenu::showStatus()
     if((tTarget!=oldtargetBed)||force_lcd_update)
     {
       lcd.setCursor(15,0);
-      lcd.print(itostr3(tTarget));
+      lcd.print(itostr3left(tTarget));
       LCD_PRINT_PGM("\001 ");
       if (tTarget < 10) lcd.print(' ');
       oldtargetBed=tTarget;
@@ -451,27 +451,34 @@ void MainMenu::showStatus()
     if((tTarget!=oldtargetHotEnd1)||force_lcd_update)
     {
       lcd.setCursor(15,0);
-      lcd.print(itostr3(tTarget));
+      lcd.print(itostr3left(tTarget));
       LCD_PRINT_PGM("\001 ");
       if (tTarget < 10) lcd.print(' ');
       oldtargetHotEnd1=tTarget;
     }
   #endif
-  //starttime=2;
-  static uint16_t oldtime=0;
-  if(starttime!=0)
-  {
-    lcd.setCursor(0,1);
-    uint16_t time=millis()/60000-starttime/60000;
+#  if EXTRUDERS > 1 && (defined BED_USES_THERMISTOR || defined BED_USES_AD59)
+    //If we both have a 2nd extruder and a heated bed, show the heated bed temp on the 2nd line on the left, as the first line is filled with extruder temps
+    tHotend=int(degBed() + 0.5);
+    tTarget=int(degTargetBed() + 0.5);
 
-    if(starttime!=oldtime)
-    {
-      lcd.print(itostr2(time/60));LCD_PRINT_PGM("h ");lcd.print(itostr2(time%60));LCD_PRINT_PGM("m");
-      oldtime=time;
-    }
-  }
+    lcd.setCursor(0, 1);
+    LCD_PRINT_PGM("\002");
+    lcd.print(itostr3(tHotend));
+    lcd.print('/');
+    lcd.print(itostr3left(tTarget));
+    LCD_PRINT_PGM("\001 ");
+    if (tTarget < 10)
+        lcd.print(' ');
+#  else
+    lcd.setCursor(0,1);
+    lcd.print('X');
+    lcd.print(ftostr3(current_position[X_AXIS]));
+    LCD_PRINT_PGM(" Y");
+    lcd.print(ftostr3(current_position[Y_AXIS]));
+#  endif//EXTRUDERS > 1 || TEMP_SENSOR_BED != 0
   static int oldzpos=0;
-  int currentz=current_position[2]*100;
+  int currentz=current_position[Z_AXIS]*100;
   if((currentz!=oldzpos)||force_lcd_update)
   {
     lcd.setCursor(10,1);
@@ -560,7 +567,7 @@ void MainMenu::showStatus()
   if((tTarget!=oldtargetHotEnd0)||force_lcd_update)
   {
     lcd.setCursor(5,0);
-    lcd.print(itostr3(tTarget));
+    lcd.print(itostr3left(tTarget));
     oldtargetHotEnd0=tTarget;
   }
 
@@ -3075,10 +3082,33 @@ char *itostr31(const int &xx)
 
 char *itostr3(const int &xx)
 {
+  conv[0]=xx>=100 ? (xx/100)%10+'0' : ' ';
+  conv[1]=xx>=10 ? (xx/10)%10+'0' : ' ';
+  conv[2]=(xx)%10+'0';
+  conv[3]=0;
+  return conv;
+}
+
+char *itostr3left(const int &xx)
+{
+  if (xx >= 100)
+  {
   conv[0]=(xx/100)%10+'0';
   conv[1]=(xx/10)%10+'0';
   conv[2]=(xx)%10+'0';
   conv[3]=0;
+  }
+  else if (xx >= 10)
+  {
+    conv[0]=(xx/10)%10+'0';
+    conv[1]=(xx)%10+'0';
+    conv[2]=0;
+  }
+  else
+  {
+    conv[0]=(xx)%10+'0';
+    conv[1]=0;
+  }
   return conv;
 }
 

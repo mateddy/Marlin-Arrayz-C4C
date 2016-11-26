@@ -36,7 +36,7 @@
   extern int absPreheatHotendTemp;
   extern int absPreheatHPBTemp;
   extern int absPreheatFanSpeed;
-    
+
   #ifdef NEWPANEL
     #define EN_C (1<<BLEN_C)
     #define EN_B (1<<BLEN_B)
@@ -54,7 +54,7 @@
     #define B_ST (1<<BL_ST)
     #define EN_B (1<<BLEN_B)
     #define EN_A (1<<BLEN_A)
-    
+
     #define LCD_CLICKED ((buttons&B_MI)||(buttons&B_ST))
     #define LCD_BLOCK {blocking[BL_MI]=millis()+blocktime;blocking[BL_ST]=millis()+blocktime;}
   #endif
@@ -62,11 +62,11 @@
   // blocking time for recognizing a new keypress of one key, ms
   #define blocktime 500
   #define lcdslow 5
-    
+
   enum MainStatus{Main_Status, Main_Menu, Main_Prepare,Sub_PrepareMove, Main_Control, Main_SD,Sub_TempControl,Sub_MotionControl,Sub_RetractControl, Sub_PreheatPLASettings, Sub_PreheatABSSettings};
-  
+
   extern LCD_CLASS lcd;
-  
+
   class MainMenu{
   public:
     MainMenu();
@@ -74,7 +74,7 @@
     int8_t activeline;
     MainStatus status;
     uint8_t displayStartingRow;
-    
+
     void showStatus();
     void showMainMenu();
     void showPrepare();
@@ -91,58 +91,58 @@
     long lastencoderpos;
     int8_t lineoffset;
     int8_t lastlineoffset;
-    
+
     bool linechanging;
-    
+
     bool tune;
-    
+
   private:
     FORCE_INLINE void updateActiveLines(const uint8_t &maxlines,volatile long &encoderpos)
     {
       if(linechanging) return; // an item is changint its value, do not switch lines hence
-      lastlineoffset=lineoffset; 
-      long curencoderpos=encoderpos;  
+      lastlineoffset=lineoffset;
+      long curencoderpos=encoderpos;
       force_lcd_update=false;
-      if(  (abs(curencoderpos-lastencoderpos)<lcdslow) ) 
-      { 
-        lcd.setCursor(0,activeline);lcd.print((activeline+lineoffset)?' ':' '); 
-        if(curencoderpos<0)  
-        {  
-          lineoffset--; 
-          if(lineoffset<0) lineoffset=0; 
+      if(  (abs(curencoderpos-lastencoderpos)<lcdslow) )
+      {
+        lcd.setCursor(0,activeline);lcd.print((activeline+lineoffset)?' ':' ');
+        if(curencoderpos<0)
+        {
+          lineoffset--;
+          if(lineoffset<0) lineoffset=0;
           curencoderpos=lcdslow-1;
-        } 
-        if(curencoderpos>(LCD_HEIGHT-1+1)*lcdslow) 
-        { 
-          lineoffset++; 
-          curencoderpos=(LCD_HEIGHT-1)*lcdslow; 
-          if(lineoffset>(maxlines+1-LCD_HEIGHT)) 
-            lineoffset=maxlines+1-LCD_HEIGHT; 
-          if(curencoderpos>maxlines*lcdslow) 
-            curencoderpos=maxlines*lcdslow; 
-        } 
+        }
+        if(curencoderpos>(LCD_HEIGHT-1+1)*lcdslow)
+        {
+          lineoffset++;
+          curencoderpos=(LCD_HEIGHT-1)*lcdslow;
+          if(lineoffset>(maxlines+1-LCD_HEIGHT))
+            lineoffset=maxlines+1-LCD_HEIGHT;
+          if(curencoderpos>maxlines*lcdslow)
+            curencoderpos=maxlines*lcdslow;
+        }
         lastencoderpos=encoderpos=curencoderpos;
         activeline=curencoderpos/lcdslow;
         if(activeline<0) activeline=0;
         if(activeline>LCD_HEIGHT-1) activeline=LCD_HEIGHT-1;
-        if(activeline>maxlines) 
+        if(activeline>maxlines)
         {
           activeline=maxlines;
           curencoderpos=maxlines*lcdslow;
         }
         if(lastlineoffset!=lineoffset)
           force_lcd_update=true;
-        lcd.setCursor(0,activeline);lcd.print((activeline+lineoffset)?'>':'\003');    
-      } 
+        lcd.setCursor(0,activeline);lcd.print((activeline+lineoffset)?'>':'\003');
+      }
     }
-    
+
     FORCE_INLINE void clearIfNecessary()
     {
       if(lastlineoffset!=lineoffset ||force_lcd_update)
       {
         force_lcd_update=true;
          lcd.clear();
-      } 
+      }
     }
   };
 #else //no lcd
@@ -152,16 +152,17 @@
   FORCE_INLINE void lcd_buttons_init() {}
   FORCE_INLINE void lcd_buttons_update() {}
 
-  #define LCD_MESSAGEPGM(x) 
-  #define LCD_ALERTMESSAGEPGM(x) 
+  #define LCD_MESSAGEPGM(x)
+  #define LCD_ALERTMESSAGEPGM(x)
 
   #define CLICKED false
   #define BLOCK ;
-#endif 
+#endif
 
 char *itostr2(const uint8_t &x);
 char *itostr31(const int &xx);
 char *itostr3(const int &xx);
+char *itostr3left(const int &xx);
 char *itostr4(const int &xx);
 
 char *ftostr3(const float &x);
