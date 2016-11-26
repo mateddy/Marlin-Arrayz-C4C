@@ -332,6 +332,8 @@
 
 #if MOTHERBOARD == 33 || MOTHERBOARD == 34
 
+  #define LARGE_FLASH true
+
 #define X_STEP_PIN         54
 #define X_DIR_PIN          55
 #define X_ENABLE_PIN       38
@@ -671,6 +673,10 @@
 #undef MOTHERBOARD
 #define MOTHERBOARD 6
 #define SANGUINOLOLU_V_1_2 
+
+#if defined(__AVR_ATmega1284P__)
+	#define LARGE_FLASH true
+#endif
 #endif
 #if MOTHERBOARD == 6
 #define KNOWN_BOARD 1
@@ -772,6 +778,8 @@
  #error Oops!  Make sure you have 'Arduino Mega' selected from the 'Tools -> Boards' menu.
  #endif
 #endif
+
+#define LARGE_FLASH true
 
 #define X_STEP_PIN 25
 #define X_DIR_PIN 23
@@ -908,6 +916,8 @@
  #endif
 #endif
 
+#define LARGE_FLASH true
+
 #define X_STEP_PIN 25
 #define X_DIR_PIN 23
 #define X_MIN_PIN 15
@@ -971,6 +981,7 @@
 #define MOTHERBOARD 8
 #define KNOWN_BOARD 1
 
+#define LARGE_FLASH true
 
 #define X_STEP_PIN          0  
 #define X_DIR_PIN           1  
@@ -1244,6 +1255,8 @@
 #error Oops!  Make sure you have 'Arduino Mega 2560' selected from the 'Tools -> Boards' menu.
 #endif
 
+#define LARGE_FLASH true
+
 #define X_STEP_PIN 37
 #define X_DIR_PIN 48
 #define X_MIN_PIN 12
@@ -1319,7 +1332,7 @@
  #endif
 
 
-
+#define LARGE_FLASH true
 
 #define X_STEP_PIN         26
 #define X_DIR_PIN          28

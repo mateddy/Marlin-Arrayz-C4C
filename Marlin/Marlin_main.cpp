@@ -137,7 +137,7 @@
 // M908 - Control digital trimpot directly.
 // M350 - Set microstepping mode.
 // M351 - Toggle MS1 MS2 pins directly.
-// M360 - Upper z axis safety height then home all axis.
+//// M360 - Upper z axis safety height then home all axis.
 // M361 - Lower nozzle to printBed surface calling Z_PROBE_OFFSET_FROM_EXTRUDER value for waiting nozzle preHeating M109 S<TEMP>.
 // M999 - Restart after being stopped by error
 
@@ -896,6 +896,7 @@ void process_commands()
       break;
       #endif //FWRETRACT
     case 28: //G28 Home all Axis one at a time
+      do_blocking_move_to(current_position[X_AXIS], current_position[Y_AXIS], MOVE_PROBE_TO_SAFETY_HEIGHT);  // move to safety height
 #ifdef ENABLE_AUTO_BED_LEVELING
       plan_bed_level_matrix.set_to_identity();
 #endif //#ifdef ENABLE_AUTO_BED_LEVELING
@@ -1878,7 +1879,7 @@ void process_commands()
       gcode_LastN = Stopped_gcode_LastN;
       FlushSerialRequestResend();
     break;
-    case 360: // Upper z axis safety height then home all axis
+/*    case 360: // Upper z axis safety height then home all axis
       do_blocking_move_to(current_position[X_AXIS], current_position[Y_AXIS], MOVE_PROBE_TO_SAFETY_HEIGHT);
       #ifdef ENABLE_AUTO_BED_LEVELING
       plan_bed_level_matrix.set_to_identity();
@@ -1977,6 +1978,7 @@ void process_commands()
       endstops_hit_on_purpose();
       break;
       // ================================================
+*/
     case 361: // Lower nozzle to printBed surface calling Z_PROBE_OFFSET_FROM_EXTRUDER value for waiting nozzle preHeating M109 S<TEMP>
       float lower_nozzle_Xpos = current_position[X_AXIS];
       float lower_nozzle_Ypos = current_position[Y_AXIS];
