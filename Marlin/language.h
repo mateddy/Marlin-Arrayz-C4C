@@ -24,7 +24,7 @@
 	#define MACHINE_NAME "Ultimaker"
 	#define FIRMWARE_URL "http://firmware.ultimaker.com"
 #else
-	#define MACHINE_NAME "ArrayZ 3D"
+	#define MACHINE_NAME "LCY Machine" // "ArrayZ 3D"
 	#define FIRMWARE_URL "http://www.mendel-parts.com"
 #endif
 

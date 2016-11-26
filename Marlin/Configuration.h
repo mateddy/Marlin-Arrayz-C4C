@@ -9,7 +9,7 @@
 //Implementation of an idea by Prof Braino to inform user that any changes made
 //to this build by the user have been successfully uploaded into firmware.
 #define STRING_VERSION_CONFIG_H __DATE__ " " __TIME__ // build date and time
-#define STRING_CONFIG_H_AUTHOR "(none, default config)" //Who made the changes.
+#define STRING_CONFIG_H_AUTHOR "(Pooh, default config)" //Who made the changes.
 
 // SERIAL_PORT selects which serial port should be used for communication with the host.
 // This allows the connection of wireless adapters (for instance) to non-default port pins.
@@ -17,8 +17,8 @@
 #define SERIAL_PORT 0
 
 // This determines the communication speed of the printer
-//#define BAUDRATE 250000
-#define BAUDRATE 115200
+#define BAUDRATE 250000
+//#define BAUDRATE 115200
 
 //// The following define selects which electronics board you have. Please choose the one that matches your setup
 // 10 = Gen7 custom (Alfons3 Version) "https://github.com/Alfons3/Generation_7_Electronics"
@@ -258,7 +258,7 @@ const bool Z_ENDSTOPS_INVERTING = true; // set to true to invert the logic of th
   // these are the offsets to the prob relative to the extruder tip
   #define DEFAULT_X_PROBE_OFFSET_FROM_EXTRUDER 0
   #define DEFAULT_Y_PROBE_OFFSET_FROM_EXTRUDER 0
-  #define DEFAULT_Z_PROBE_OFFSET_FROM_EXTRUDER 0 // fill the value get from z-probe ( "-bigger value will closer to printbed" &  " -smaller value will far away to printbed")
+  #define DEFAULT_Z_PROBE_OFFSET_FROM_EXTRUDER 0.24 // fill the value get from z-probe ( "-bigger value will closer to printbed" &  " -smaller value will far away to printbed")
   
   // there are the position to define pre-process of printing jobs.
   #define MOVE_PROBE_TO_SAFETY_HEIGHT 10.0 // this value to define z axis safety height to doing z-probe
@@ -269,13 +269,13 @@ const bool Z_ENDSTOPS_INVERTING = true; // set to true to invert the logic of th
 #endif
 
 #define min_software_endstops true //If true, axis won't move to coordinates less than HOME_POS.
-#define max_software_endstops false  //If true, axis won't move to coordinates greater than the defined lengths below.
+#define max_software_endstops true //If true, axis won't move to coordinates greater than the defined lengths below.
 // Travel limits after homing
-#define X_MAX_POS 190.0
+#define X_MAX_POS 178.0 // Tested value
 #define X_MIN_POS 0
-#define Y_MAX_POS 190.0
+#define Y_MAX_POS 172.0 // Tested value
 #define Y_MIN_POS 0
-#define Z_MAX_POS 190.0
+#define Z_MAX_POS 180.0 // Tested value
 #define Z_MIN_POS 0
 
 #define X_MAX_LENGTH (X_MAX_POS - X_MIN_POS)
