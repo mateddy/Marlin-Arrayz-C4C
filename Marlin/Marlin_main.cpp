@@ -62,7 +62,7 @@
 // G10 - retract filament according to settings of M207
 // G11 - retract recover filament according to settings of M208
 // G28 - Home all Axis
-// G29 - Detailed Z-Probe, probes the bed at 3 points.  You must de at the home position for this to work correctly.
+// G29 - Detailed Z-Probe, probes the bed at 3 points.  You must be at the home position for this to work correctly.
 // G30 - Single Z Probe, probes bed at current XY location.
 // G90 - Use Absolute Coordinates
 // G91 - Use Relative Coordinates
@@ -121,6 +121,7 @@
 // M220 S<factor in percent>- set speed factor override percentage
 // M221 S<factor in percent>- set extrude factor override percentage
 // M240 - Trigger a camera to take a photograph
+// M300 - Play beep sound S<frequency Hz> P<duration ms>
 // M301 - Set PID parameters P I and D
 // M302 - Allow cold extrudes
 // M303 - PID relay autotune S<temperature> sets the target temperature. (default target temperature = 150C)
@@ -1675,6 +1676,31 @@ void process_commands()
     }
     break;
     
+    #if (LARGE_FLASH == true && ( BEEPER > 0 || defined(ULTRALCD) || defined(LCD_USE_I2C_BUZZER)))
+    case 300: // M300
+    {
+      int beepS = code_seen('S') ? code_value() : 110;
+      int beepP = code_seen('P') ? code_value() : 1000;
+      if (beepS > 0)
+      {
+        #if BEEPER > 0
+          tone(BEEPER, beepS);
+          delay(beepP);
+          noTone(BEEPER);
+        #elif defined(ULTRALCD)
+		  lcd_buzz(beepS, beepP);
+		#elif defined(LCD_USE_I2C_BUZZER)
+		  lcd_buzz(beepP, beepS);
+        #endif
+      }
+      else
+      {
+        delay(beepP);
+      }
+    }
+    break;
+    #endif // M300
+
     #ifdef PIDTEMP
     case 301: // M301
       {
@@ -1722,7 +1748,7 @@ void process_commands()
      {
       #ifdef PHOTOGRAPH_PIN
         #if (PHOTOGRAPH_PIN > -1)
-        const uint8_t NUM_PULSES=16;
+        const uint8_t NUM_PULSES=20; //was 16
         const float PULSE_LENGTH=0.01524;
         for(int i=0; i < NUM_PULSES; i++) {
           WRITE(PHOTOGRAPH_PIN, HIGH);

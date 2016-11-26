@@ -369,7 +369,7 @@
 #define SOLENOID_PIN       9  // Z-Probe load-down solenoid connected pin
 
 #if MOTHERBOARD == 33
-#define FAN_PIN            11 //5 (changed by James) //9 // (Sprinter config)
+#define FAN_PIN            5 //9 // (Sprinter config)
 #else
 #define FAN_PIN            4 // IO pin. Buffer needed
 #endif
