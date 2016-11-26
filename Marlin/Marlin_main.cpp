@@ -173,6 +173,9 @@ int fanSpeed=0;
   float retract_recover_length=0, retract_recover_feedrate=8*60;
 #endif
 
+float x_probe_offset_from_extruder = DEFAULT_X_PROBE_OFFSET_FROM_EXTRUDER;
+float y_probe_offset_from_extruder = DEFAULT_Y_PROBE_OFFSET_FROM_EXTRUDER;
+float z_probe_offset_from_extruder = DEFAULT_Z_PROBE_OFFSET_FROM_EXTRUDER;
 //===========================================================================
 //=============================private variables=============================
 //===========================================================================
@@ -661,7 +664,7 @@ static void set_bed_level_equation(float z_at_xLeft_yFront, float z_at_xRight_yF
     current_position[Z_AXIS] = corrected_position.z;
 
     // but the bed at 0 so we don't go below it.
-    current_position[Z_AXIS] = -Z_PROBE_OFFSET_FROM_EXTRUDER;
+    current_position[Z_AXIS] = -z_probe_offset_from_extruder;
 
     plan_set_position(current_position[X_AXIS], current_position[Y_AXIS], current_position[Z_AXIS], current_position[E_AXIS]);
 }
@@ -1013,7 +1016,7 @@ void process_commands()
             
             // prob 1
             do_blocking_move_to(current_position[X_AXIS], current_position[Y_AXIS], 6); // orginal = 40
-            do_blocking_move_to(LEFT_PROBE_BED_POSITION - X_PROBE_OFFSET_FROM_EXTRUDER, BACK_PROBE_BED_POSITION - Y_PROBE_OFFSET_FROM_EXTRUDER, current_position[Z_AXIS]);
+            do_blocking_move_to(LEFT_PROBE_BED_POSITION - x_probe_offset_from_extruder, BACK_PROBE_BED_POSITION - y_probe_offset_from_extruder, current_position[Z_AXIS]);
             run_z_probe();
             float z_at_xLeft_yBack = current_position[Z_AXIS];
 
@@ -1027,7 +1030,7 @@ void process_commands()
 
             // prob 2
             do_blocking_move_to(current_position[X_AXIS], current_position[Y_AXIS], current_position[Z_AXIS] + 6); // orginal = 10
-            do_blocking_move_to(LEFT_PROBE_BED_POSITION - X_PROBE_OFFSET_FROM_EXTRUDER, FRONT_PROBE_BED_POSITION - Y_PROBE_OFFSET_FROM_EXTRUDER, current_position[Z_AXIS]);
+            do_blocking_move_to(LEFT_PROBE_BED_POSITION - x_probe_offset_from_extruder, FRONT_PROBE_BED_POSITION - y_probe_offset_from_extruder, current_position[Z_AXIS]);
             run_z_probe();
             float z_at_xLeft_yFront = current_position[Z_AXIS];
 
@@ -1042,7 +1045,7 @@ void process_commands()
             // prob 3
             do_blocking_move_to(current_position[X_AXIS], current_position[Y_AXIS], current_position[Z_AXIS] + 6); // orginal = 10
             // the current position will be updated by the blocking move so the head will not lower on this next call.
-            do_blocking_move_to(RIGHT_PROBE_BED_POSITION - X_PROBE_OFFSET_FROM_EXTRUDER, FRONT_PROBE_BED_POSITION - Y_PROBE_OFFSET_FROM_EXTRUDER, current_position[Z_AXIS]);
+            do_blocking_move_to(RIGHT_PROBE_BED_POSITION - x_probe_offset_from_extruder, FRONT_PROBE_BED_POSITION - y_probe_offset_from_extruder, current_position[Z_AXIS]);
             run_z_probe();
             float z_at_xRight_yFront = current_position[Z_AXIS];
             prob3_z_height = z_at_xRight_yFront;
@@ -1951,7 +1954,7 @@ void process_commands()
     case 361: // Lower nozzle to printBed surface calling Z_PROBE_OFFSET_FROM_EXTRUDER value for waiting nozzle preHeating M109 S<TEMP>
       float lower_nozzle_Xpos = current_position[X_AXIS];
       float lower_nozzle_Ypos = current_position[Y_AXIS];
-      current_position[Z_AXIS] = Z_PROBE_OFFSET_FROM_EXTRUDER + Z_OFFSET_DO_PREHEAT_NOZZLE; // this value to define z axis offset height level for preheat nozzle position at prob3 point
+      current_position[Z_AXIS] = z_probe_offset_from_extruder + Z_OFFSET_DO_PREHEAT_NOZZLE; // this value to define z axis offset height level for preheat nozzle position at prob3 point
       float do_lower_nozzle_zAxis = 0;
       do_blocking_move_to(lower_nozzle_Xpos, lower_nozzle_Ypos, do_lower_nozzle_zAxis); // do lower nozzle to printbed surface wait to M109 S<TEMP> preheating.
       break;

@@ -251,31 +251,31 @@ const bool Z_ENDSTOPS_INVERTING = true; // set to true to invert the logic of th
 
   // these are the positions on the bed to do the probing
   #define LEFT_PROBE_BED_POSITION 0
-  #define RIGHT_PROBE_BED_POSITION 140
-  #define BACK_PROBE_BED_POSITION 160
+  #define RIGHT_PROBE_BED_POSITION 150
+  #define BACK_PROBE_BED_POSITION 150
   #define FRONT_PROBE_BED_POSITION 0
 
   // these are the offsets to the prob relative to the extruder tip
-  #define X_PROBE_OFFSET_FROM_EXTRUDER 0
-  #define Y_PROBE_OFFSET_FROM_EXTRUDER 25
-  #define Z_PROBE_OFFSET_FROM_EXTRUDER -0.08; // fill the value get from z-probe ( "-bigger value will closer to printbed" &  " -smaller value will far away to printbed")
+  #define DEFAULT_X_PROBE_OFFSET_FROM_EXTRUDER 0
+  #define DEFAULT_Y_PROBE_OFFSET_FROM_EXTRUDER 0
+  #define DEFAULT_Z_PROBE_OFFSET_FROM_EXTRUDER 0 // fill the value get from z-probe ( "-bigger value will closer to printbed" &  " -smaller value will far away to printbed")
   
   // there are the position to define pre-process of printing jobs.
   #define MOVE_PROBE_TO_SAFETY_HEIGHT 10.0 // this value to define z axis safety height to doing z-probe
   #define Z_OFFSET_DO_PREHEAT_NOZZLE 0.0 // this value to define z axis offset height level for preheat nozzle position at prob3 point
   #define PRE_EXTRUDING_XPOS 15.0 //preheat nozzle position at prob3 location.
   #define PRE_EXTRUDING_YPOS 0.0
-  #define PRE_EXTRUDING_ZPOS 0.4
+  #define PRE_EXTRUDING_ZPOS 0.0
 #endif
 
 #define min_software_endstops true //If true, axis won't move to coordinates less than HOME_POS.
 #define max_software_endstops false  //If true, axis won't move to coordinates greater than the defined lengths below.
 // Travel limits after homing
-#define X_MAX_POS 188
+#define X_MAX_POS 190.0
 #define X_MIN_POS 0
-#define Y_MAX_POS 190
+#define Y_MAX_POS 190.0
 #define Y_MIN_POS 0
-#define Z_MAX_POS 115.0
+#define Z_MAX_POS 190.0
 #define Z_MIN_POS 0
 
 #define X_MAX_LENGTH (X_MAX_POS - X_MIN_POS)
@@ -314,7 +314,7 @@ const bool Z_ENDSTOPS_INVERTING = true; // set to true to invert the logic of th
 
 // makergear extruder box
 #define EXTRUDER_GEAR_RATIO (43.0/10.0)
-#define PINCH_WHEEL_DIAMETER 6.95 //Marlin orginal value = 7.65
+#define PINCH_WHEEL_DIAMETER 7.30
 
 #define AXIS_STEPS_PER_UNIT_X (STEPS_PER_REVOLUTION_X / IDLER_TEETH / BELT_PITCH_X)
 #define AXIS_STEPS_PER_UNIT_Y (STEPS_PER_REVOLUTION_Y / IDLER_TEETH / BELT_PITCH_Y)
@@ -343,7 +343,7 @@ const bool Z_ENDSTOPS_INVERTING = true; // set to true to invert the logic of th
 // M501 - reads parameters from EEPROM (if you need reset them after you changed them temporarily).  
 // M502 - reverts to the default "factory settings".  You still need to store them in EEPROM afterwards if you want to.
 //define this to enable eeprom support
-//#define EEPROM_SETTINGS
+#define EEPROM_SETTINGS
 //to disable EEPROM Serial responses and decrease program space by ~1700 byte: comment this out:
 // please keep turned on if you can.
 #define EEPROM_CHITCHAT
@@ -373,8 +373,7 @@ const bool Z_ENDSTOPS_INVERTING = true; // set to true to invert the logic of th
 
 #define ABS_PREHEAT_HOTEND_TEMP 240
 #define ABS_PREHEAT_HPB_TEMP 110
-#define ABS_PREHEAT_FAN_SPEED 0
-	// Insert Value between 0 and 255
+#define ABS_PREHEAT_FAN_SPEED 0		// Insert Value between 0 and 255
 
 
 #ifdef ULTIPANEL

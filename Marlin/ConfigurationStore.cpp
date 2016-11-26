@@ -76,6 +76,9 @@ void Config_StoreSettings()
     EEPROM_WRITE_VAR(i,0);
     EEPROM_WRITE_VAR(i,0);
   #endif
+  EEPROM_WRITE_VAR(i,x_probe_offset_from_extruder);
+  EEPROM_WRITE_VAR(i,y_probe_offset_from_extruder);
+  EEPROM_WRITE_VAR(i,z_probe_offset_from_extruder);
   char ver2[4]=EEPROM_VERSION;
   i=EEPROM_OFFSET;
   EEPROM_WRITE_VAR(i,ver2); // validate data
@@ -148,6 +151,13 @@ void Config_PrintSettings()
     SERIAL_ECHOPAIR(" D" ,Kd*PID_dT);
     SERIAL_ECHOLN(""); 
 #endif
+    SERIAL_ECHO_START;
+    SERIAL_ECHOLNPGM("Offset from extruder (mm):");
+    SERIAL_ECHO_START;
+    SERIAL_ECHOPAIR(" X" , x_probe_offset_from_extruder);
+    SERIAL_ECHOPAIR(" Y" , y_probe_offset_from_extruder);
+    SERIAL_ECHOPAIR(" Z" , z_probe_offset_from_extruder);
+    SERIAL_ECHOLN("");
 } 
 #endif
 
@@ -191,7 +201,9 @@ void Config_RetrieveSettings()
         EEPROM_READ_VAR(i,Kp);
         EEPROM_READ_VAR(i,Ki);
         EEPROM_READ_VAR(i,Kd);
-
+        EEPROM_READ_VAR(i,x_probe_offset_from_extruder);
+        EEPROM_READ_VAR(i,y_probe_offset_from_extruder);
+        EEPROM_READ_VAR(i,z_probe_offset_from_extruder);
         SERIAL_ECHO_START;
         SERIAL_ECHOLNPGM("Stored settings retreived:");
     }
@@ -241,4 +253,7 @@ void Config_ResetDefault()
     Kc = DEFAULT_Kc;
 #endif//PID_ADD_EXTRUSION_RATE
 #endif//PIDTEMP
+    x_probe_offset_from_extruder = DEFAULT_X_PROBE_OFFSET_FROM_EXTRUDER;
+    y_probe_offset_from_extruder = DEFAULT_Y_PROBE_OFFSET_FROM_EXTRUDER;
+    z_probe_offset_from_extruder = DEFAULT_Z_PROBE_OFFSET_FROM_EXTRUDER;
 }

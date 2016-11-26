@@ -1489,6 +1489,7 @@ void MainMenu::showControlTemp()
 
 enum {
   ItemCM_exit, 
+  ItemCM_zprobe, /*ItemCM_xprobe, ItemCM_yprobe, */
   ItemCM_acc, ItemCM_xyjerk, 
   ItemCM_vmaxx, ItemCM_vmaxy, ItemCM_vmaxz, ItemCM_vmaxe, 
   ItemCM_vtravmin,ItemCM_vmin,  
@@ -1509,7 +1510,41 @@ void MainMenu::showControlMotion()
     case ItemCM_exit:
       MENUITEM(  LCD_PRINT_PGM(MSG_CONTROL)  ,  LCD_BLOCK;status=Main_Control;beepshort(); ) ;
       break;
-    case ItemCM_acc:
+    case ItemCM_zprobe:
+    {
+      if(force_lcd_update)
+        {
+          lcd.setCursor(0,line);LCD_PRINT_PGM(MSG_ZPROBE);
+          lcd.setCursor(13,line);lcd.print(ftostr52(-z_probe_offset_from_extruder));
+        }
+        
+        if((activeline!=line) )
+          break;
+        
+        if(LCD_CLICKED)
+        {
+          linechanging=!linechanging;
+          if(linechanging)
+          {
+              encoderpos=(long)(-z_probe_offset_from_extruder*100.0);
+          }
+          else
+          {
+              z_probe_offset_from_extruder = -(float(encoderpos)/100.0);
+              encoderpos=activeline*lcdslow;
+          }
+          LCD_BLOCK;
+          beepshort();
+        }
+        if(linechanging)
+        {
+          if(encoderpos<0) encoderpos=0;
+          if(encoderpos>1000) encoderpos=1000;
+          lcd.setCursor(13,line);lcd.print(ftostr52(float(encoderpos)/100.0));
+        }
+        
+      }break;
+	case ItemCM_acc:
     {
       if(force_lcd_update)
         {

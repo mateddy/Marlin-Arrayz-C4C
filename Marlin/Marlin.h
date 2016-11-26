@@ -195,6 +195,10 @@ extern float retract_length, retract_feedrate, retract_zlift;
 extern float retract_recover_length, retract_recover_feedrate;
 #endif
 
+extern float x_probe_offset_from_extruder;
+extern float y_probe_offset_from_extruder;
+extern float z_probe_offset_from_extruder;
+
 extern unsigned long starttime;
 extern unsigned long stoptime;
 
