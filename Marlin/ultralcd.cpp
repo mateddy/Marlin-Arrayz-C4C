@@ -71,7 +71,7 @@ void lcdProgMemprint(const char *str)
 //=============================functions         ============================
 //===========================================================================
 
-int intround(const float &x){return int(0.5+x);}
+//int intround(const float &x){return int(0.5+x);}
 
 void lcd_setstatus(const char* message)
 {
@@ -402,52 +402,52 @@ void MainMenu::showStatus()
     #endif
   }
 
-  int tHotEnd0=intround(degHotend0());
+  int tHotEnd0=int(degHotend0() + 0.5);
   if((tHotEnd0!=olddegHotEnd0)||force_lcd_update)
   {
     lcd.setCursor(1,0);
-    lcd.print(ftostr3(tHotEnd0));
+    lcd.print(itostr3(tHotEnd0));
     olddegHotEnd0=tHotEnd0;
   }
-  int ttHotEnd0=intround(degTargetHotend0());
+  int ttHotEnd0=int(degTargetHotend0() + 0.5);
   if((ttHotEnd0!=oldtargetHotEnd0)||force_lcd_update)
   {
     lcd.setCursor(5,0);
-    lcd.print(ftostr3(ttHotEnd0));
+    lcd.print(itostr3(ttHotEnd0));
     oldtargetHotEnd0=ttHotEnd0;
   }
   #if defined BED_USES_THERMISTOR || defined BED_USES_AD595
     static int oldtBed=-1;
     static int oldtargetBed=-1;
-    int tBed=intround(degBed());
+    int tBed=int(degBed() + 0.5);
     if((tBed!=oldtBed)||force_lcd_update)
     {
       lcd.setCursor(11,0);
-      lcd.print(ftostr3(tBed));
+      lcd.print(itostr3(tBed));
       oldtBed=tBed;
     }
-    int targetBed=intround(degTargetBed());
+    int targetBed=int(degTargetBed() + 0.5);
     if((targetBed!=oldtargetBed)||force_lcd_update)
     {
       lcd.setCursor(15,0);
-      lcd.print(ftostr3(targetBed));
+      lcd.print(itostr3(targetBed));
       oldtargetBed=targetBed;
     }
   #elif EXTRUDERS > 1
     static int olddegHotEnd1=-1;
     static int oldtargetHotEnd1=-1;
-    int tHotEnd1=intround(degHotend1());
+    int tHotEnd1=int(degHotend1() + 0.5);
     if((tHotEnd1!=olddegHotEnd1)||force_lcd_update)
     {
       lcd.setCursor(11,0);
-      lcd.print(ftostr3(tHotEnd1));
+      lcd.print(itostr3(tHotEnd1));
       olddegHotEnd1=tHotEnd1;
     }
-    int ttHotEnd1=intround(degTargetHotend1());
+    int ttHotEnd1=int(degTargetHotend1() + 0.5);
     if((ttHotEnd1!=oldtargetHotEnd1)||force_lcd_update)
     {
       lcd.setCursor(15,0);
-      lcd.print(ftostr3(ttHotEnd1));
+      lcd.print(itostr3(ttHotEnd1));
       oldtargetHotEnd1=ttHotEnd1;
     }
   #endif
@@ -541,20 +541,20 @@ void MainMenu::showStatus()
     lcd.setCursor(0,0);LCD_PRINT_PGM("\002---/---\001 ");
   }
 
-  int tHotEnd0=intround(degHotend0());
-  int ttHotEnd0=intround(degTargetHotend0());
+  int tHotEnd0=int(degHotend0() + 0.5);
+  int ttHotEnd0=int(degTargetHotend0() + 0.5);
 
 
   if((abs(tHotEnd0-olddegHotEnd0)>1)||force_lcd_update)
   {
     lcd.setCursor(1,0);
-    lcd.print(ftostr3(tHotEnd0));
+    lcd.print(itostr3(tHotEnd0));
     olddegHotEnd0=tHotEnd0;
   }
   if((ttHotEnd0!=oldtargetHotEnd0)||force_lcd_update)
   {
     lcd.setCursor(5,0);
-    lcd.print(ftostr3(ttHotEnd0));
+    lcd.print(itostr3(ttHotEnd0));
     oldtargetHotEnd0=ttHotEnd0;
   }
 
@@ -871,7 +871,7 @@ void MainMenu::showTune()
         if(force_lcd_update)
         {
           lcd.setCursor(0,line);LCD_PRINT_PGM(MSG_NOZZLE);
-          lcd.setCursor(13,line);lcd.print(ftostr3(intround(degTargetHotend0())));
+          lcd.setCursor(13,line);lcd.print(itostr3(int(degTargetHotend0() + 0.5)));
         }
 
         if((activeline!=line) )
@@ -882,7 +882,7 @@ void MainMenu::showTune()
           linechanging=!linechanging;
           if(linechanging)
           {
-              encoderpos=intround(degTargetHotend0());
+              encoderpos=int(degTargetHotend0() + 0.5);
           }
           else
           {
@@ -905,7 +905,7 @@ void MainMenu::showTune()
         if(force_lcd_update)
         {
           lcd.setCursor(0,line);LCD_PRINT_PGM(MSG_BED);
-          lcd.setCursor(13,line);lcd.print(ftostr3(intround(degTargetBed())));
+          lcd.setCursor(13,line);lcd.print(itostr3(int(degTargetBed() + 0.5)));
         }
 
         if((activeline!=line) )
@@ -916,7 +916,7 @@ void MainMenu::showTune()
           linechanging=!linechanging;
           if(linechanging)
           {
-              encoderpos=intround(degTargetBed());
+              encoderpos=int(degTargetBed() + 0.5);
           }
           else
           {
@@ -1071,7 +1071,7 @@ void MainMenu::showControlTemp()
         if(force_lcd_update)
         {
           lcd.setCursor(0,line);LCD_PRINT_PGM(MSG_NOZZLE);
-          lcd.setCursor(13,line);lcd.print(ftostr3(intround(degTargetHotend0())));
+          lcd.setCursor(13,line);lcd.print(itostr3(int(degTargetHotend0() + 0.5)));
         }
 
         if((activeline!=line) )
@@ -1082,7 +1082,7 @@ void MainMenu::showControlTemp()
           linechanging=!linechanging;
           if(linechanging)
           {
-              encoderpos=intround(degTargetHotend0());
+              encoderpos=int(degTargetHotend0() + 0.5);
           }
           else
           {
@@ -1106,7 +1106,7 @@ void MainMenu::showControlTemp()
         if(force_lcd_update)
         {
           lcd.setCursor(0,line);LCD_PRINT_PGM(MSG_NOZZLE1);
-          lcd.setCursor(13,line);lcd.print(ftostr3(intround(degTargetHotend1())));
+          lcd.setCursor(13,line);lcd.print(itostr3(int(degTargetHotend1() + 0.5)));
         }
 
         if((activeline!=line) )
@@ -1117,7 +1117,7 @@ void MainMenu::showControlTemp()
           linechanging=!linechanging;
           if(linechanging)
           {
-              encoderpos=intround(degTargetHotend1());
+              encoderpos=int(degTargetHotend1() + 0.5);
           }
           else
           {
@@ -1142,7 +1142,7 @@ void MainMenu::showControlTemp()
         if(force_lcd_update)
         {
           lcd.setCursor(0,line);LCD_PRINT_PGM(MSG_NOZZLE2);
-          lcd.setCursor(13,line);lcd.print(ftostr3(intround(degTargetHotend2())));
+          lcd.setCursor(13,line);lcd.print(itostr3(int(degTargetHotend2() + 0.5)));
         }
 
         if((activeline!=line) )
@@ -1153,7 +1153,7 @@ void MainMenu::showControlTemp()
           linechanging=!linechanging;
           if(linechanging)
           {
-              encoderpos=intround(degTargetHotend2());
+              encoderpos=int(degTargetHotend2() + 0.5);
           }
           else
           {
@@ -1189,7 +1189,7 @@ void MainMenu::showControlTemp()
           linechanging=!linechanging;
           if(linechanging)
           {
-              encoderpos=intround(autotemp_min);
+              encoderpos=int(autotemp_min + 0.5);
           }
           else
           {
@@ -1223,7 +1223,7 @@ void MainMenu::showControlTemp()
           linechanging=!linechanging;
           if(linechanging)
           {
-              encoderpos=intround(autotemp_max);
+              encoderpos=int(autotemp_max + 0.5);
           }
           else
           {
@@ -1257,7 +1257,7 @@ void MainMenu::showControlTemp()
           linechanging=!linechanging;
           if(linechanging)
           {
-              encoderpos=intround(autotemp_factor*100);
+              encoderpos=int(autotemp_factor*100 + 0.5);
           }
           else
           {
@@ -1309,7 +1309,7 @@ void MainMenu::showControlTemp()
         if(force_lcd_update)
         {
           lcd.setCursor(0,line);LCD_PRINT_PGM(MSG_BED);
-          lcd.setCursor(13,line);lcd.print(ftostr3(intround(degTargetBed())));
+          lcd.setCursor(13,line);lcd.print(itostr3(int(degTargetBed() + 0.5)));
         }
 
         if((activeline!=line) )
@@ -1320,7 +1320,7 @@ void MainMenu::showControlTemp()
           linechanging=!linechanging;
           if(linechanging)
           {
-              encoderpos=intround(degTargetBed());
+              encoderpos=int(degTargetBed() + 0.5);
           }
           else
           {
@@ -3008,12 +3008,13 @@ void MainMenu::showABSsettings()
 char *ftostr3(const float &x)
 {
   //sprintf(conv,"%5.1f",x);
-  int xx=x;
-  conv[0]=(xx/100)%10+'0';
-  conv[1]=(xx/10)%10+'0';
-  conv[2]=(xx)%10+'0';
-  conv[3]=0;
-  return conv;
+  //int xx=x;
+  //conv[0]=(xx/100)%10+'0';
+  //conv[1]=(xx/10)%10+'0';
+  //conv[2]=(xx)%10+'0';
+  //conv[3]=0;
+  //return conv;
+  return itostr3((int)x);
 }
 
 char *itostr2(const uint8_t &x)
