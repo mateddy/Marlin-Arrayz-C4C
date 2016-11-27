@@ -24,7 +24,7 @@
 #include "Configuration.h"
 #include "pins.h"
 
-#if ARDUINO >= 100 
+#if ARDUINO >= 100
   #if defined(__AVR_ATmega644P__)
     #include "WProgram.h"
   #else

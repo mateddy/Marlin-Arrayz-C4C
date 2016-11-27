@@ -43,29 +43,29 @@ vector_3 vector_3::cross(vector_3 left, vector_3 right)
 		left.x * right.y - left.y * right.x);
 }
 
-vector_3 vector_3::operator+(vector_3 v) 
+vector_3 vector_3::operator+(vector_3 v)
 {
 	return vector_3((x + v.x), (y + v.y), (z + v.z));
 }
 
-vector_3 vector_3::operator-(vector_3 v) 
+vector_3 vector_3::operator-(vector_3 v)
 {
 	return vector_3((x - v.x), (y - v.y), (z - v.z));
 }
 
-vector_3 vector_3::get_normal() 
+vector_3 vector_3::get_normal()
 {
 	vector_3 normalized = vector_3(x, y, z);
 	normalized.normalize();
 	return normalized;
 }
 
-float vector_3::get_length() 
+float vector_3::get_length()
 {
         float length = sqrt((x * x) + (y * y) + (z * z));
 	return length;
 }
- 
+
 void vector_3::normalize()
 {
 	float length = get_length();
@@ -112,11 +112,11 @@ matrix_3x3 matrix_3x3::create_from_rows(vector_3 row_0, vector_3 row_1, vector_3
         //row_1.debug("row_1");
         //row_2.debug("row_2");
 	matrix_3x3 new_matrix;
-	new_matrix.matrix[0] = row_0.x; new_matrix.matrix[1] = row_0.y; new_matrix.matrix[2] = row_0.z; 
-	new_matrix.matrix[3] = row_1.x; new_matrix.matrix[4] = row_1.y; new_matrix.matrix[5] = row_1.z; 
-	new_matrix.matrix[6] = row_2.x; new_matrix.matrix[7] = row_2.y; new_matrix.matrix[8] = row_2.z; 
+	new_matrix.matrix[0] = row_0.x; new_matrix.matrix[1] = row_0.y; new_matrix.matrix[2] = row_0.z;
+	new_matrix.matrix[3] = row_1.x; new_matrix.matrix[4] = row_1.y; new_matrix.matrix[5] = row_1.z;
+	new_matrix.matrix[6] = row_2.x; new_matrix.matrix[7] = row_2.y; new_matrix.matrix[8] = row_2.z;
         //new_matrix.debug("new_matrix");
-        
+
 	return new_matrix;
 }
 
@@ -138,7 +138,7 @@ matrix_3x3 matrix_3x3::create_look_at(vector_3 target, vector_3 up)
     //x_row.debug("x_row");
     //y_row.debug("y_row");
     //z_row.debug("z_row");
-    
+
     matrix_3x3 rot = matrix_3x3::create_from_rows(vector_3(x_row.x, y_row.x, z_row.x),
                                 vector_3(x_row.y, y_row.y, z_row.y),
                                 vector_3(x_row.z, y_row.z, z_row.z));
@@ -151,7 +151,7 @@ matrix_3x3 matrix_3x3::create_inverse(matrix_3x3 original)
 {
 	//original.debug("original");
 	float* A = original.matrix;
-	float determinant = 
+	float determinant =
 		+ A[0 * 3 + 0] * (A[1 * 3 + 1] * A[2 * 3 + 2] - A[2 * 3 + 1] * A[1 * 3 + 2])
 		- A[0 * 3 + 1] * (A[1 * 3 + 0] * A[2 * 3 + 2] - A[1 * 3 + 2] * A[2 * 3 + 0])
 		+ A[0 * 3 + 2] * (A[1 * 3 + 0] * A[2 * 3 + 1] - A[1 * 3 + 1] * A[2 * 3 + 0]);
@@ -199,4 +199,3 @@ void matrix_3x3::debug(char* title)
 }
 
 #endif // #ifdef ENABLE_AUTO_BED_LEVELING
-

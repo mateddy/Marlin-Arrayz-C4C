@@ -19,7 +19,7 @@
 */
 
 #ifndef temperature_h
-#define temperature_h 
+#define temperature_h
 
 #include "Marlin.h"
 #include "planner.h"
@@ -37,13 +37,13 @@ int temp2analog(int celsius, uint8_t e);
 int temp2analogBed(int celsius);
 float analog2temp(int raw, uint8_t e);
 float analog2tempBed(int raw);
-extern int target_raw[EXTRUDERS];  
-extern int heatingtarget_raw[EXTRUDERS];  
+extern int target_raw[EXTRUDERS];
+extern int heatingtarget_raw[EXTRUDERS];
 extern int current_raw[EXTRUDERS];
 extern int target_raw_bed;
 extern int current_raw_bed;
 #ifdef BED_LIMIT_SWITCHING
-  extern int target_bed_low_temp ;  
+  extern int target_bed_low_temp ;
   extern int target_bed_high_temp ;
 #endif
 
@@ -55,7 +55,7 @@ extern int current_raw_bed;
   extern float bedKp,bedKi,bedKd;
   extern float pid_setpoint_bed;
 #endif
-  
+
 // #ifdef WATCHPERIOD
   extern int watch_raw[EXTRUDERS] ;
 //   extern unsigned long watchmillis;
@@ -66,7 +66,7 @@ extern int current_raw_bed;
 //inline so that there is no performance decrease.
 //deg=degreeCelsius
 
-FORCE_INLINE float degHotend(uint8_t extruder) {  
+FORCE_INLINE float degHotend(uint8_t extruder) {
   return analog2temp(current_raw[extruder], extruder);
 };
 
@@ -74,23 +74,23 @@ FORCE_INLINE float degBed() {
   return analog2tempBed(current_raw_bed);
 };
 
-FORCE_INLINE float degTargetHotend(uint8_t extruder) {  
+FORCE_INLINE float degTargetHotend(uint8_t extruder) {
   return analog2temp(target_raw[extruder], extruder);
 };
 
-FORCE_INLINE float degTargetBed() {   
+FORCE_INLINE float degTargetBed() {
   return analog2tempBed(target_raw_bed);
 };
 
-FORCE_INLINE void setTargetHotend(const float &celsius, uint8_t extruder) {  
+FORCE_INLINE void setTargetHotend(const float &celsius, uint8_t extruder) {
   target_raw[extruder] = temp2analog(celsius, extruder);
 #ifdef PIDTEMP
   pid_setpoint[extruder] = celsius;
 #endif //PIDTEMP
 };
 
-FORCE_INLINE void setTargetBed(const float &celsius) {  
-  
+FORCE_INLINE void setTargetBed(const float &celsius) {
+
   target_raw_bed = temp2analogBed(celsius);
 	#ifdef PIDTEMPBED
   pid_setpoint_bed = celsius;
@@ -101,14 +101,14 @@ FORCE_INLINE void setTargetBed(const float &celsius) {
     target_bed_high_temp= temp2analogBed(celsius+BED_HYSTERESIS);
     }
     else
-    { 
+    {
       target_bed_low_temp=0;
       target_bed_high_temp=0;
     }
   #endif
 };
 
-FORCE_INLINE bool isHeatingHotend(uint8_t extruder){  
+FORCE_INLINE bool isHeatingHotend(uint8_t extruder){
   return target_raw[extruder] > current_raw[extruder];
 };
 
@@ -116,7 +116,7 @@ FORCE_INLINE bool isHeatingBed() {
   return target_raw_bed > current_raw_bed;
 };
 
-FORCE_INLINE bool isCoolingHotend(uint8_t extruder) {  
+FORCE_INLINE bool isCoolingHotend(uint8_t extruder) {
   return target_raw[extruder] < current_raw[extruder];
 };
 
@@ -172,4 +172,3 @@ FORCE_INLINE void autotempShutdown(){
 void PID_autotune(float temp, int extruder, int ncycles);
 
 #endif
-
